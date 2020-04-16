@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Employee;
+use App\Http\Resources\EmployeeResource;
 class EmployeeController extends Controller
 {
     /**
@@ -13,7 +14,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return "index page";
+        return new EmployeeResource(Employee::all());
     }
 
     /**
@@ -43,9 +44,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Employee $employee)
     {
-        //
+        return new EmployeeResource($employee);
     }
 
     /**
