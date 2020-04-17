@@ -43,10 +43,11 @@ class GetEmpWebHistory extends Command
         if($employee == null){
             $this->error("Record not exist");  
         }else{
+
             $data = [
                 'emp_id' => $employee->emp_id,
                 'ip_address' => $ip,
-                'urls' => EmployeeWebHistory::where('ip_address', $ip)->select('url')->pluck('url')->all()
+                'urls' => EmployeeWebHistory::where('ip_address', $ip)->select('url')->get()
             ];
             echo json_encode($data);
         }
