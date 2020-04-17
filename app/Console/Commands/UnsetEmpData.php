@@ -4,21 +4,21 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Employee;
-class SETEmpData extends Command
+class UnsetEmpData extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'empdata:SET empdata {id} {name} {ip}';
+    protected $signature = 'empdata:UNSET empdata {ip}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Set Employee date id,name and IP address';
+    protected $description = 'Unset Employee data';
 
     /**
      * Create a new command instance.
@@ -37,13 +37,10 @@ class SETEmpData extends Command
      */
     public function handle()
     {
-        $data = [
-            'emp_id' => $this->argument('id'),
-            'emp_name' => $this->argument('name'),
-            'ip_address' => $this->argument('ip')
-        ];
-
-        Employee::create($data);
-        $this->info("Record Created");
+        $ip_address = $this->argument('ip');
+        $res = Employee::where('ip_address',$ip_address)->delete();
+        if($res){
+            $this->error("Record Deleted Successfully");
+        }
     }
 }
