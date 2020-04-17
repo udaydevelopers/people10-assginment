@@ -15,7 +15,7 @@ class EmployeeWebHistory extends Model
      * @var array
      */
     protected $fillable = [
-        'ip_address', 'url'
+        'emp_id','ip_address', 'url'
     ];
 
     /**
