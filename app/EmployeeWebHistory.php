@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Employee extends Model
+class EmployeeWebHistory extends Model
 {
     use SoftDeletes;
 
@@ -15,7 +15,7 @@ class Employee extends Model
      * @var array
      */
     protected $fillable = [
-        'emp_id', 'emp_name', 'ip_address',
+        'ip_address', 'url'
     ];
 
     /**
@@ -26,8 +26,4 @@ class Employee extends Model
 
     protected $dates = ['deleted_at'];
 
-    function urls(){
-        return $this->hasMany('App\EmployeeWebHistory','emp_id', 'emp_id'); 
-    }
 }
-  

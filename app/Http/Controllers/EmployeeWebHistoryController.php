@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use  App\Employee;
+use App\EmployeeWebHistory;
+use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\EmployeeWebHistoryResource;
 
 class EmployeeWebHistoryController extends Controller
 {
@@ -13,7 +17,9 @@ class EmployeeWebHistoryController extends Controller
      */
     public function index()
     {
-        //
+
+        //$query = EmployeeWebHistory::get()->groupBy('ip_address');
+       return EmployeeWebHistoryResource::collection(Employee::all());
     }
 
     /**
@@ -23,7 +29,7 @@ class EmployeeWebHistoryController extends Controller
      */
     public function create()
     {
-        //
+       //
     }
 
     /**
@@ -43,9 +49,10 @@ class EmployeeWebHistoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($ip_address)
     {
-        //
+         $employees_web_history = Employee::where('ip_address',$ip_address)->get();
+        return EmployeeWebHistoryResource::collection($employees_web_history);
     }
 
     /**

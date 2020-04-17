@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEmployeesTable extends Migration
+class CreateEmployeeWebHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateEmployeesTable extends Migration
      */
     public function up()
     {
-        Schema::create('employees', function (Blueprint $table) {
+        Schema::create('employee_web_histories', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('emp_id');
-            $table->string('emp_name');
             $table->ipAddress('ip_address');
+            $table->string('url');
             $table->softDeletes();
             $table->timestamps();
-            $table->unique(['emp_id', 'ip_address']); 
         });
     }
 
@@ -31,6 +30,6 @@ class CreateEmployeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employees');
+        Schema::dropIfExists('employee_web_histories');
     }
 }
