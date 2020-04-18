@@ -120,13 +120,14 @@ empwebhistory
     ---------------------------------------------- empdata set completed ------------------------------------------
     
   7) php artisan empwebhistory:SET 192.168.10.10 www.google.com 
-  Error: IP Address not associated with employee. Please add employee and ip address first
+    Error: IP Address not associated with employee. Please add employee and ip address first
     "Becuase ip address 192.168.10.10 not exist. Set IP with below command:
-     php artisan empdata:SET 3 JACK 192.168.10.10
+    php artisan empdata:SET 3 JACK 192.168.10.10
     
-   Set with correct IP addrss
-   php artisan empwebhistory:SET 192.168.10.10 www.google.com 
-   output: Web history details added successfully.
+    Set with correct IP addrss
+    php artisan empwebhistory:SET 192.168.10.10 www.google.com 
+    output: Web history details added successfully.
+    
  8) Get Empweb history by ip below command:
     php artisan empwebhistory:GET 192.168.10.10
     output:{"emp_id":3,"ip_address":"192.168.10.10","urls":[{"url":"www.google.com"}]}
