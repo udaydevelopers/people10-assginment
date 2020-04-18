@@ -140,3 +140,23 @@ empwebhistory
     php artisan empwebhistory:GET 192.168.10.10
     output:{"emp_id":3,"ip_address":"192.168.10.10","urls":[]}
 
+ ---------- Access by URL -------------------
+ 1) Get all employess 
+ http://127.0.0.1:8000/api/employees
+ output:
+{"data":[{"id":1,"empId":1,"empName":"uday","empIpAddress":"192.168.110.120"},{"id":2,"empId":2,"empName":"Abhay","empIpAddress":"120.120.120.120"},{"id":4,"empId":3,"empName":"JACK","empIpAddress":"192.168.10.10"}]}
+
+2) Get Single employee 
+http://127.0.0.1:8000/api/employees/1
+output:
+{"data":{"id":1,"empId":1,"empName":"uday","empIpAddress":"192.168.110.120"}}
+
+3) Get all web history 
+ http://127.0.0.1:8000/api/employees-web-history/
+ output:
+  {"data":[{"id":1,"empIpAddress":"192.168.110.120","urls":[{"url":"www.google.com"},{"url":"www.yahoo.com"},{"url":"www.msn.com"},{"url":"www.laravel.com"}]},{"id":2,"empIpAddress":"120.120.120.120","urls":[]},{"id":4,"empIpAddress":"192.168.10.10","urls":[]}]}
+ 
+4) Get single IP record 
+    http://127.0.0.1:8000/api/employees-web-history/192.168.110.120
+    output:
+    {"data":[{"id":1,"empIpAddress":"192.168.110.120","urls":[{"url":"www.google.com"},{"url":"www.yahoo.com"},{"url":"www.msn.com"},{"url":"www.laravel.com"}]}]}
