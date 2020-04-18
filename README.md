@@ -1,78 +1,141 @@
-<p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+- Create a very simple MySQL database having two tables that is
+employees[ id, emp_id, epm_name, ip_address] and employee_web_history[ip_address, url, date] tables. These table should be created through migration files.
 
-## About Laravel
+- Create GET, POST, DELETE API end points to get, insert and delete the employee websearch data based on the ip_address as a key. Your code should must have
+model for each table, controller to handle the API requests and repository to do operation and format data.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Create 3 console command to operate these API requests in command line interface. All of the commands are going to be fed to you one line at a time via stdin, and your job is to process the commands and to perform whatever operation the command dictates. All the response will come with json result.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Data Commands
+Your functionality should accept the following commands:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+	SET empdata [emp_id] [emp_name] [ip_address] : Insert the employee details to employee table with data emp_id, emp_name, ip_address.
+	GET empdata [ip_address] : Get the employee details having the ip_address
+	UNSET empdata [ip_address] : Soft delete the data  having the passed ip_address
+	SET empwebhistory [ip_address] [url] : It will first check if the ip address is assigned to any employee or not if the ip address is there then it will insert the url  variable [url] to the mapped  ip_address [ip_address], other with it will throw error.
+	GET empwebhistory [ip_address] : Print out the employee details with his web search history  stored under the variable [ip_address]. Print NULL if that ip_address doesn’t have any data
+	UNSET empwebhistory [ip_address] :Delete all the web search history data mapped with ip_address.
+	END:Exit the program.
 
-## Learning Laravel
+Examples
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+So here is a sample input:
+1) 
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+SET empdata 1 ‘Jack Petter’ ‘192.168.10.10’
+GET empdata ‘192.168.10.10’
+UNSET empdata ‘192.168.10.10’
+GET empdata ‘192.168.10.10’
 
-## Laravel Sponsors
+SET empwebhistory 192.168.10.10 ‘http://google.com’
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+GET empwebhistory  192.168.10.10
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
-- [Appoly](https://www.appoly.co.uk)
-- [OP.GG](https://op.gg)
+UNSET empwebhistory  192.168.10.10
 
-## Contributing
+GET empwebhistory 192.168.10.10
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+END
 
-## Code of Conduct
+And its corresponding output:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
 
-## Security Vulnerabilities
+"employee": {  
+"id": 1
+"empId": "1",   
+"empName": "Jack Petter",   
+"empIpAddress": "191.168.10.10"
+}
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+NULL
+Resource not found
+NULL
+Resource not found
+NULL
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2) 
+SET empdata 1 ‘Jack Petter’ ‘192.168.10.10’
+GET empdata ‘192.168.10.10’
+
+SET empwebhistory 192.168.10.10 ‘http://google.com’
+SET empwebhistory 192.168.10.10 ‘http://facebook.com’
+
+GET empwebhistory  192.168.10.10
+
+UNSET empwebhistory  192.168.10.10
+
+GET empwebhistory 192.168.10.10
+
+END
+
+And its corresponding output:
+
+
+"employee": {  
+"id": 1
+"empid": "1",   
+"empName": "Jack Petter",   
+"empIpAddress": "191.168.10.10"
+}
+
+
+“employeewebhistory”: {
+"id": 1
+"empIpAddress": "191.168.10.10",   
+"urls": {
+	  “url”: "http://google.com",
+	  “url”: “http://facebook.com”
+}
+}
+NULL
+=======================================================================================================================================
+1) Clone the Repository in local pc
+
+2) Go to Laravel project folder and run command "composer update"
+3) Rund command "php artisan migrate" to create tables
+   Run command "php artisan list". Below command will be appear in list
+
+empdata                                                                  
+ empdata:GET          Fetch employee data through IP address             
+ empdata:SET          Set Employee date id,name and IP address           
+ empdata:UNSET        Unset Employee data     
+
+empwebhistory                                                            
+ empwebhistory:GET    Get Employee web history data by IP Address        
+ empwebhistory:SET    Set Employee web history add IP Address and URL    
+ empwebhistory:UNSET  Unset Employee web history by IP Address
+ 
+ 4) Set emp data by below command:
+    php artisan empdata:SET 2 JackPeter 191.168.10.10 (Success message will return "Record created";
+ 
+ 5) Get emp data by IP address below command:
+    php artisan empdata:GET 191.168.10.10
+    output: [{"emp_id":2,"emp_name":"JackPeter","ip_address":"191.168.10.10"}]
+    
+ 6) Unset emp data by ip address below command:
+    php artisan empdata:UNSET 191.168.10.10
+    output:Record Deleted Successfully
+    ---------------------------------------------- empdata set completed ------------------------------------------
+    
+  7) php artisan empwebhistory:SET 192.168.10.10 www.google.com 
+  Error: IP Address not associated with employee. Please add employee and ip address first
+    "Becuase ip address 192.168.10.10 not exist. Set IP with below command:
+     php artisan empdata:SET 3 JACK 192.168.10.10
+    
+   Set with correct IP addrss
+   php artisan empwebhistory:SET 192.168.10.10 www.google.com 
+   output: Web history details added successfully.
+ 8) Get Empweb history by ip below command:
+    php artisan empwebhistory:GET 192.168.10.10
+    output:{"emp_id":3,"ip_address":"192.168.10.10","urls":[{"url":"www.google.com"}]}
+    
+ 9) Unset Web history by below command:
+    php artisan empwebhistory:UNSET 192.168.10.10
+    output:Record Deleted Successfully
+ 
+ 10) After unset check webhistory data exist or not below command:
+    php artisan empwebhistory:GET 192.168.10.10
+    output:{"emp_id":3,"ip_address":"192.168.10.10","urls":[]}
+
