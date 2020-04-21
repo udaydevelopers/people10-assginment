@@ -35,7 +35,18 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, array(
+            'emp_id' => 'required',
+            'emp_name' => 'required|max:255',
+            'ip_address'  => 'required'
+        ));
+    // store in the database
+        $emp = new Employee;
+        $emp->emp_id = $request->emp_id;
+        $emp->emp_name = $request->emp_name;
+        $emp->ip_address = $request->ip_address;
+        $emp->save();
+        return response()->json(["message" => "employee record created"], 201);
     }
 
     /**
