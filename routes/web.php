@@ -20,9 +20,9 @@ Route::get('/', function () {
 });
 
 Route::get('/notify', function () {
-    $users = User::all();
+    $users = User::find(2);
     //$user->notify(new TestNotification(999));
-    Notification::send($users, new TestNotification(1000));
+    Notification::send($users, new TestNotification(700));
 });
 
 
