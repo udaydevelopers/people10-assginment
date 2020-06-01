@@ -41,6 +41,7 @@ class TestNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
+                    ->subject('Notification Test by Uday')
                     ->line('The introduction to the notification. You will get Rs.'.$this->amount)
                     ->action('Notification Action', url('/'))
                     ->line('Thank you for using our application!');

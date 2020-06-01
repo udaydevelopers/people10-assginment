@@ -12,6 +12,7 @@
 */
 
 use App\Notifications\TestNotification;
+use Illuminate\Support\Facades\Notification;
 use App\User;
 
 Route::get('/', function () {
@@ -19,8 +20,9 @@ Route::get('/', function () {
 });
 
 Route::get('/notify', function () {
-    $user = User::find(1);
-    $user->notify(new TestNotification(999));
+    $users = User::all();
+    //$user->notify(new TestNotification(999));
+    Notification::send($users, new TestNotification(1000));
 });
 
 
