@@ -11,10 +11,17 @@
 |
 */
 
+use App\Notifications\TestNotification;
+use App\User;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/notify', function () {
+    $user = User::find(1);
+    $user->notify(new TestNotification(999));
+});
 
 
 Auth::routes();
