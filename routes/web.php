@@ -14,10 +14,9 @@
 use App\Notifications\TestNotification;
 use Illuminate\Support\Facades\Notification;
 use App\User;
+use App\Post;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'PostController@index')->name('posts.index');
 
 Route::get('/notify', function () {
     $users = User::find(2);
@@ -25,7 +24,9 @@ Route::get('/notify', function () {
     Notification::send($users, new TestNotification(700));
 });
 
+Route::Resource('posts', 'PostController');
+
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'PostController@index')->name('home');
