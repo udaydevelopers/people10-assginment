@@ -25,7 +25,7 @@ Route::get('/notify', function () {
 });
 
 Route::Resource('posts', 'PostController');
-
+Route::Resource('invoices', 'InvoiceController');
 
 Auth::routes();
 
