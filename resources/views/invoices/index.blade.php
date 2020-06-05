@@ -8,6 +8,7 @@
                 <div class="card-header bg-primary text-white">Create Invoice</div>
 
                 <div class="card-body">
+                 
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
@@ -15,8 +16,8 @@
                     @endif
 
                     <form id="inventory_form" method="post">
-                        @csrf
-                    <span id="result"></span>
+                    @csrf
+                    <span id="error_msg"></span>
                     <div class="form-group">
                         <label for="formGroupExampleInput">Name</label>
                         <input type="text" name="name" class="form-control" id="formGroupExampleInput" placeholder="Name">
@@ -30,7 +31,15 @@
                         <input type="text" name="due_date" class="form-control" id="formGroupExampleInput3" placeholder="Due Date">
                     </div>
                     <div class="">
-                
+                    <div class="table-wrapper">
+                    <div class="table-title">
+                        <div class="row">
+                            <div class="col-sm-8"><h2>Line Items <b>Details</b></h2></div>
+                            <div class="col-sm-4">
+                                
+                            </div>
+                        </div>
+                    </div>
                     <table class="table table-bordered">
                         <thead>
                         <tr>
@@ -45,6 +54,7 @@
                         
                         </tbody>
                     </table>
+                    </div>
                     <div class="row">
                     <div class="col-md-3">
                             <div class="form-group change text-primary">
@@ -72,13 +82,13 @@
 </div>
 @endsection
 @push('scripts')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
    var count = 1;
    dynamic_field(count);
    function dynamic_field(number)
-   {
+   {    
         var html = '<tr>';
         html += '<td><input type="text" name="description[]" class="form-control"></td>';
         html += '<td><input type="text" name="unit_price[]" class="form-control"></td>';
@@ -90,16 +100,17 @@ $(document).ready(function() {
             $("tbody").append(html);
         }else{
             html +='<td><button name="add" id="add" class="btn btn-success">Add</button></td></tr>';
-            $("tbody").append(html);
+            $("tbody").html(html);
         }
    }
 
    $("#add").click(function(event){
        event.preventDefault();
        count++;
-       dynamic_field(count);
+       dynamic_field(count); 
    });
-   $(document).on('click', '#remove', function(event){
+   
+   $(document).on('click', '#remove', function(event){ 
        event.preventDefault();
        count--; 
        dynamic_field(count);
@@ -107,30 +118,33 @@ $(document).ready(function() {
 
    $("#inventory_form").on('submit', function(event){
     event.preventDefault();
-    $.ajax({
-        url:'{{ route("invoices.store") }}',
-        method:'post',
-        data:$(this).serialize(),
-        dataType:'Json',
-        beforeSend:function(){
-            $("#save").attr('disabled','disabled');
-        },
-        success:function(data){
-            if(data.error)
-            {
-                var error_html = '';
-                for(count=0; count < data.error.length; count++)
+        $.ajax({
+            url:'{{ route("invoices.store") }}',
+            method:'post',
+            data:$(this).serialize(),
+            dataType:'Json',
+            beforeSend:function(){
+                $("#save").attr('disabled','disabled');
+            },
+            success:function(data){ 
+                if(data.error)
                 {
-                    error_html = '<p>'+ data.error[count] +'</p>';
+                    var error_html = '';
+                    for(count=0; count < data.error.length; count++)
+                    {
+                        error_html += '<p>'+ data.error[count] +'</p>';
+                    } 
+                    $('#error_msg').html('<div class="alert alert-danger">' + error_html + '</div>');          
+                }else{
+                    dynamic_field(1);
+                    $('#error_msg').html('<div class="alert alert-success">' + data.success + '</div>');
                 }
-                $('#result').html('<div class="alert alert-danger'> + error_html + '</div>');
-            }else{
-                dynamic_field(1);
-                $('#result').html('<div class="alert alert-success'> + data.success + '</div>');
+                $("#formGroupExampleInput").val('');
+                $("#formGroupExampleInput2").val('');
+                $("#formGroupExampleInput3").val('');
+                $("#save").attr('disabled',false);
             }
-            $("#save").attr('disabled',false);
-        }
-    });
+        });
    });
     
     // update_amounts();

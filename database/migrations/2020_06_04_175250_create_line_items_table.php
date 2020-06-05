@@ -15,11 +15,12 @@ class CreateLineitemsTable extends Migration
     {
         Schema::create('line_items', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('invoice_id');
+            $table->unsignedBigInteger('invoice_id');
             $table->string('description');
             $table->float('unit_price');
             $table->float('quantity');
             $table->float('sub_total');
+            $table->foreign('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
             $table->timestamps();
         });
     }

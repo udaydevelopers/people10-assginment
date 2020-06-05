@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Invoice;
 use App\LineItem;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
 {
@@ -38,12 +38,30 @@ class InvoiceController extends Controller
     public function store(Request $request)
     {
         if($request->ajax()){
-           $request->validate([
+            
+            $rules = array(
+                'name' => 'required',
+                'address' => 'required',
+                'due_date' => 'required',
                 'description.*' => 'required',
                 'unit_price.*' => 'required',
                 'quantity.*' => 'required',
                 'sub_total.*' => 'required',
-            ]);
+            );
+
+            $error = Validator::make($request->all(), $rules);
+    
+            if ($error->fails()) {
+                return response()->json([
+                    'error' => $error->errors()->all()
+                ]);
+            }
+        //    $request->validate([
+        //         'description.*' => 'required',
+        //         'unit_price.*' => 'required',
+        //         'quantity.*' => 'required',
+        //         'sub_total.*' => 'required',
+        //     ]);
 
         //    if($error->fails()){
         //      return response()->json([
