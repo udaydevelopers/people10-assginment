@@ -58,8 +58,8 @@
                     <div class="row">
                     <div class="col-md-3">
                             <div class="form-group change text-primary">
-                                <label for="">Grand Total</label>
-                                :Amt<span></span>
+                                <label for="text-success">Grand Total:</label>
+                                <span class="total"></span>
                             </div>
                         </div>
                     </div>
@@ -91,9 +91,9 @@ $(document).ready(function() {
    {    
         var html = '<tr>';
         html += '<td><input type="text" name="description[]" class="form-control"></td>';
-        html += '<td><input type="text" name="unit_price[]" class="form-control"></td>';
-        html += '<td><input type="text" name="quantity[]" class="form-control"></td>';
-        html += '<td><input type="text" name="sub_total[]" class="form-control"></td>';
+        html += '<td><input type="text" name="unit_price[]" class="form-control unitp"></td>';
+        html += '<td><input type="text" name="quantity[]" class="form-control qty"></td>';
+        html += '<td><input type="text" name="sub_total[]" class="form-control sub_total_amt"></td>';
         if(number > 1)
         {
             html +='<td><button name="remove" id="remove" class="btn btn-danger">Remove</button></td></tr>';
@@ -147,24 +147,24 @@ $(document).ready(function() {
         });
    });
     
-    // update_amounts();
-    // $('.qty').change(function() {
-    //     update_amounts();
-    // });
+    update_amounts();
+    $('.qty').change(function() {
+        update_amounts();
+    });
 
-    // function update_amounts()
-    // {
-    //     var sum = 0.0;
-    //     $('.after-add-more .row').each(function() {
-    //         var qty = parseFloat($(this).find('.qty').val() || 0,10);
-    //         var price = parseFloat($(this).find('.price').val() || 0,10);
-    //         var amount = (qty*price)
-    //         sum+=amount;
-    //         $(this).find('.sub_total_amt').val(''+amount);
-    //     }); console.log(sum);
-    //     //just update the total to sum  
-    //     $('input.total').val(sum);
-    // }
+    function update_amounts()
+    {
+        var sum = 0.0;
+        $('.table tbody tr').each(function() {
+            var qty = parseFloat($(this).find('.unitp').val() || 0,10);
+            var price = parseFloat($(this).find('.qty').val() || 0,10);
+            var amount = (qty*price)
+            sum+=amount;
+            $(this).find('.sub_total_amt').val(''+amount);
+        }); 
+        //just update the total to sum  
+        $('.total').text(sum);
+    }
 });
 </script>
 @endpush

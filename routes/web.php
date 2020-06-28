@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Notification;
 use App\User;
 use App\Post;
 
+
 Route::get('/', 'PostController@index')->name('posts.index');
 
 Route::get('/notify', function () {
@@ -30,3 +31,8 @@ Route::Resource('invoices', 'InvoiceController');
 Auth::routes();
 
 Route::get('/home', 'PostController@index')->name('home');
+Route::get('/email', 'PostController@sendemail')->name('email');
+Route::get('/getemail', 'PostController@getmailgunmsg')->name('getemail');
+Route::get('/mail-details', 'PostController@getmsgdetails')->name('getmsgdetails');
+
+
